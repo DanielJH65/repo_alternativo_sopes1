@@ -1,0 +1,17 @@
+version: "3"
+services:
+  backend:
+    image: "danieljh65/sopes1-pro1-agent" #Imagen de DockerHub
+    container_name: "Pro1Agent"
+    restart: always
+    volumes:
+      - type: bind
+        source: /proc
+        target: /proc
+      - /proc:/proc
+      - /etc/passwd:/etc/passwd
+    pid: host
+    user: root
+    privileged: true
+    ports:
+      - "4005:4005"

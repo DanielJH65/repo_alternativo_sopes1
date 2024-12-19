@@ -1,0 +1,38 @@
+services:
+  db_proyecto1:
+    image: "mysql"
+    container_name: "db_proyecto1"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: Proyecto1
+      MYSQL_USER: sopes1
+      MYSQL_PASSWORD: sopes1
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+  grafana:
+    image: grafana/grafana:latest
+    container_name: "frontend"
+    restart: always
+    ports:
+      - "4006:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_SECURITY_ADMIN_USER: admin
+    volumes:
+      - grafana-data:/var/lib/grafana
+    depends_on:
+      - db_proyecto1
+  backend:
+    image: "danieljh65/sopes1-pro1-backend"
+    container_name: "backend"
+    restart: always
+    ports:
+      - "4005:4005"
+    depends_on:
+      - db_proyecto1
+volumes:
+  mysql-data:
+  grafana-data:
