@@ -7,7 +7,7 @@ const app = new Hono()
 app.use('/*', cors())
 
 const config = {
-  host: 'db_proyecto1',
+  host: 'localhost',
   user: 'root',
   port: 3306,
   password: 'root',
@@ -22,24 +22,24 @@ app.get('/', (c) => {
 
 app.post('/ram', async (c) => {
   const data = await c.req.json()
-  const clientIp = c.req.header('x-forwarded-for') || c.req.header('x-real-ip')
+  const clientIp = c.req.header('x-forwarded-for') || c.req.header('x-real-ip') || "0.0.0.0"
   console.log(data)
-  const { total_ram, free_ram, used_ram, percentage_used } = data
+  const { total_ram, free_ram, used_ram, percentage_ram } = data
   const result = await connection.query(
-    'INSERT INTO ram (ip, total_ram, free_ram, used_ram, percentage_used) VALUES (?, ?, ?, ?, ?)',
-    [clientIp, total_ram, free_ram, used_ram, percentage_used]
+    'INSERT INTO ram (ip, total_ram, free_ram, used_ram, percentage_ram) VALUES (?, ?, ?, ?, ?)',
+    [clientIp, total_ram, free_ram, used_ram, percentage_ram]
   )
   return c.json({ message: "recibido" }, 201)
 })
 
 app.post('/cpu', async (c) => {
   const data = await c.req.json()
-  const clientIp = c.req.header('x-forwarded-for') || c.req.header('x-real-ip')
+  const clientIp = c.req.header('x-forwarded-for') || c.req.header('x-real-ip') || "0.0.0.0"
   console.log(data)
-  const { percentage_used, tasks } = data
+  const { percentage_cpu, tasks } = data
   const result = await connection.query(
-    'INSERT INTO cpu (ip, percentage_used) VALUES (?, ?)',
-    [clientIp, percentage_used]
+    'INSERT INTO cpu (ip, percentage_cpu) VALUES (?, ?)',
+    [clientIp, percentage_cpu]
   )
   await connection.query('DELETE FROM tasks WHERE ip = ?', [clientIp])
   for (const task of tasks) {
