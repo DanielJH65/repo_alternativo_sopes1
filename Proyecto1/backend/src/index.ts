@@ -43,10 +43,10 @@ app.post('/cpu', async (c) => {
   )
   await connection.query('DELETE FROM tasks WHERE ip = ?', [clientIp])
   for (const task of tasks) {
-    const { pid, name, status, user, father, ram } = task
+    const { pid, name, state, user, father, ram } = task
     await connection.query(
       'INSERT INTO tasks (ip, pid, name, status, user, ram, father) VALUES (?, ?, ?, ?, ?, ?, ?)',
-      [clientIp, pid, name, status, user, ram, father]
+      [clientIp, pid, name, state, user, ram, father]
     )
   }
   return c.json({ message: "recibido" }, 201)
