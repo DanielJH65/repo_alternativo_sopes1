@@ -23,11 +23,11 @@ app.get('/', (c) => {
 app.post('/ram', async (c) => {
   const data = await c.req.json()
   const clientIp = c.req.header('x-forwarded-for') || c.req.header('x-real-ip') || "0.0.0.0"
-  console.log(data)
-  const { total_ram, free_ram, used_ram, percentage_ram } = data
+  console.log(c.req.header())
+  const { total_ram, free_ram, used_ram, percentage_used } = data
   const result = await connection.query(
     'INSERT INTO ram (ip, total_ram, free_ram, used_ram, percentage_ram) VALUES (?, ?, ?, ?, ?)',
-    [clientIp, total_ram, free_ram, used_ram, percentage_ram]
+    [clientIp, total_ram, free_ram, used_ram, percentage_used]
   )
   return c.json({ message: "recibido" }, 201)
 })
@@ -36,10 +36,10 @@ app.post('/cpu', async (c) => {
   const data = await c.req.json()
   const clientIp = c.req.header('x-forwarded-for') || c.req.header('x-real-ip') || "0.0.0.0"
   console.log(data)
-  const { percentage_cpu, tasks } = data
+  const { percentage_used, tasks } = data
   const result = await connection.query(
     'INSERT INTO cpu (ip, percentage_cpu) VALUES (?, ?)',
-    [clientIp, percentage_cpu]
+    [clientIp, percentage_used]
   )
   await connection.query('DELETE FROM tasks WHERE ip = ?', [clientIp])
   for (const task of tasks) {

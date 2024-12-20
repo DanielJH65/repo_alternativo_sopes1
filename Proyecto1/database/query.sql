@@ -46,6 +46,21 @@ CREATE TABLE IF NOT EXISTS tasks (
 );
 
 SELECT
+    *
+FROM
+    ram;
+
+SELECT
+    *
+FROM
+    cpu;
+
+SELECT
+    *
+FROM
+    tasks;
+
+SELECT
     percentage_ram
 FROM
     ram
