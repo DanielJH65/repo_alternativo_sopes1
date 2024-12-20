@@ -53,8 +53,8 @@ func postScheduledData() {
 	for {
 		select {
 		case <-ticker.C:
-			fmt.Println("======= DATOS MODULO CPU =======")
-			fmt.Println(" ")
+			/*fmt.Println("======= DATOS MODULO CPU =======")
+			fmt.Println(" ")*/
 
 			cmdCpu := exec.Command("sh", "-c", "cat /proc/cpu")
 			outCpu, errCpu := cmdCpu.CombinedOutput()
@@ -63,14 +63,14 @@ func postScheduledData() {
 			}
 
 			//---CPU
-			fmt.Println("======= CPU =======")
+			//fmt.Println("======= CPU =======")
 			var cpu_info Cpu
 			err := json.Unmarshal([]byte(outCpu), &cpu_info)
 			if err != nil {
 				fmt.Println(err)
 			}
 			//Mandar el post
-			url := "http://34.136.135.194:4005/cpu"
+			url := "http://104.154.19.126:4005/cpu"
 			//Manda cpu_info que es un json
 			p_cpu, err := cpu.Percent(time.Second, false)
 			if err != nil {
@@ -78,7 +78,7 @@ func postScheduledData() {
 			}
 			cpu_info.Usage = p_cpu[0]
 			jsonValue, _ := json.Marshal(cpu_info)
-			fmt.Println(string(jsonValue))
+			//fmt.Println(string(jsonValue))
 			//Mandar el json a la url
 			response, err := http.Post(url, "application/json", bytes.NewBuffer(jsonValue))
 			if err != nil {
@@ -92,9 +92,9 @@ func postScheduledData() {
 					fmt.Println("\x1b[32m", string(responseBody), "\x1b[0m")
 				}
 			}
-			fmt.Println(" ")
+			/*fmt.Println(" ")
 			fmt.Println("======= DATOS MODULO RAM =======")
-			fmt.Println(" ")
+			fmt.Println(" ")*/
 
 			cmdRam := exec.Command("sh", "-c", "cat /proc/ram")
 			outRam, errRam := cmdRam.CombinedOutput()
@@ -102,7 +102,7 @@ func postScheduledData() {
 				fmt.Println(errRam)
 			}
 			//---RAM
-			fmt.Println("======= RAM =======")
+			//fmt.Println("======= RAM =======")
 			var ram_info Ram
 			err = json.Unmarshal([]byte(outRam), &ram_info)
 			if err != nil {
@@ -110,10 +110,10 @@ func postScheduledData() {
 			}
 
 			//Mandar respuesta
-			url = "http://34.136.135.194:4005/ram"
+			url = "http://104.154.19.126:4005/ram"
 			//Manda ram_info que es un json
 			jsonValue, _ = json.Marshal(ram_info)
-			fmt.Println(string(jsonValue))
+			//fmt.Println(string(jsonValue))
 			//Mandar el json a la url
 			response, err = http.Post(url, "application/json", bytes.NewBuffer(jsonValue))
 			if err != nil {

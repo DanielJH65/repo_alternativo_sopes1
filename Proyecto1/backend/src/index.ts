@@ -7,7 +7,7 @@ const app = new Hono()
 app.use('/*', cors())
 
 const config = {
-  host: 'localhost',
+  host: 'db_proyecto1',
   user: 'root',
   port: 3306,
   password: 'root',

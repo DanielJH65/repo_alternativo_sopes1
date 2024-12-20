@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS ram (
     total_ram FLOAT NOT NULL,
     free_ram FLOAT NOT NULL,
     used_ram FLOAT NOT NULL,
-    percentage_ram FLOAT NOT NULL DEFAULT 0.0,
+    percentage_ram FLOAT NOT NULL,
     date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id)
 );
